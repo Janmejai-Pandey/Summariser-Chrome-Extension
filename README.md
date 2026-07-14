@@ -53,8 +53,8 @@ You can install the extension in two ways: directly from a release (no build req
 
 1. Clone the repository
    ```bash
-   git clone <your-repo-url>
-   cd <project-folder>
+   git clone https://github.com/Janmejai-Pandey/Summariser-Chrome-Extension.git
+   cd Summariser-Chrome-Extension
    ```
 
 2. Install dependencies
@@ -87,7 +87,7 @@ You can install the extension in two ways: directly from a release (no build req
 Create a `.env` file in the project root and add:
 
 ```
-VITE_GROQ_API_KEY=your_groq_key_here
+GROQ_API_KEY=your_groq_key_here
 ```
 
 Make sure `.env` is listed in `.gitignore`, then run `npm run build` again.
@@ -143,6 +143,7 @@ Then reload the extension from `chrome://extensions`.
 ├── manifest.json
 ├── vite.config.js
 └── package.json
+...
 ```
 
 ---
@@ -160,9 +161,3 @@ Then reload the extension from `chrome://extensions`.
 **"API call failed"**
 - Verify your Groq API key is correct
 - Check usage limits at [console.groq.com](https://console.groq.com)
-
----
-
-## License
-
-MIT
