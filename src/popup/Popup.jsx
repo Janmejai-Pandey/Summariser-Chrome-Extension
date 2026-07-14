@@ -66,7 +66,6 @@ const Popup = () => {
     <div>
       <div id="popup-title">WhatsApp Summariser</div>
 
-      {/* Display current chat metadata */}
       {chatMeta && (
         <div style={{
           margin: "1rem",
@@ -83,7 +82,6 @@ const Popup = () => {
         </div>
       )}
 
-      {/* Message range selection */}
       <div className="labels">
         <label>
           <input type="radio" value="unread" checked={type === "unread"} onChange={(e) => setType(e.target.value)} />
@@ -95,7 +93,6 @@ const Popup = () => {
             <input type="radio" value="custom" checked={type === "custom"} onChange={(e) => setType(e.target.value)} />
             Custom
           </label>
-          {/* Show number input only when custom is selected */}
           {type === "custom" && (
             <input type="number" value={customLimit} onChange={(e) => setCustomLimit(Number(e.target.value))} />
           )}
@@ -111,10 +108,8 @@ const Popup = () => {
         </button>
       </div>
 
-      {/* Error display */}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* Summary display */}
       {summary && (
         <div className="summary">
           <h3>Summary</h3>

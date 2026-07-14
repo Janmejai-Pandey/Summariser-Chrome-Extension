@@ -1,8 +1,5 @@
 const GROQ_API_KEY = process.env.GROQ_API_KEY
-// =============================================
-// Converts messages array to plain readable text
-// for sending to Gemini
-// =============================================
+
 const formatMessages = (messages) => {
   return messages.map(msg => {
     const sender = msg.sender.name || msg.sender.phone || "Unknown"
@@ -10,10 +7,6 @@ const formatMessages = (messages) => {
   }).join("\n")
 }
 
-// =============================================
-// Calls Gemini API with formatted chat text
-// Returns summary string
-// =============================================
 const summariseWithGroq = async (messages) => {
   const chatText = formatMessages(messages)
 
@@ -50,32 +43,21 @@ const summariseWithGroq = async (messages) => {
   return data.choices[0].message.content
 }
 
-// =============================================
-// Main handler for summarise action
-// All processing logic lives here
-// Popup only sends request and receives response
-// =============================================
 const handleSummarise = async (request, sendResponse) => {
 
-  // Get the currently active tab
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
 
-  // Make sure user is on WhatsApp Web
   if (!tab.url?.includes("web.whatsapp.com")) {
     sendResponse({ error: "Please open WhatsApp Web first" })
     return
   }
 
-  // Get current chat name from content script
-  // Needed to look up stored unread count
   const chatInfo = await new Promise((resolve) => {
     chrome.tabs.sendMessage(tab.id, { action: "getCurrentChatName" }, (res) => resolve(res))
   })
 
   let limit = request.limit
 
-  // For unread type, get stored count from local storage
-  // Content script saves this automatically via MutationObserver
   if (request.type === "unread") {
     const { chatState = {} } = await chrome.storage.local.get("chatState")
     const unreadCount = chatState[chatInfo?.chatName]?.unreadCount
@@ -88,7 +70,6 @@ const handleSummarise = async (request, sendResponse) => {
     limit = unreadCount
   }
 
-  // Request messages from content script with calculated limit
   const chatResponse = await new Promise((resolve) => {
     chrome.tabs.sendMessage(
       tab.id,
@@ -102,7 +83,6 @@ const handleSummarise = async (request, sendResponse) => {
     return
   }
 
-  // Call Gemini and send summary back to popup
   try {
     const summary = await summariseWithGroq(chatResponse.messages)
     sendResponse({ summary })
@@ -111,13 +91,9 @@ const handleSummarise = async (request, sendResponse) => {
   }
 }
 
-// =============================================
-// Listen for messages from popup
-// =============================================
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "summarise") {
     handleSummarise(request, sendResponse)
   }
-  // return true keeps channel open for async handleSummarise
   return true
 })
