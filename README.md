@@ -94,10 +94,10 @@ Make sure `.env` is listed in `.gitignore`, then run `npm run build` again.
 
 ### If You Installed From Release
 
-Open `background.js` inside the extracted folder and replace the placeholder:
+Open `dist\assets\background.js-CzWnJ7VH.js` inside the extracted folder and replace the placeholder:
 
 ```javascript
-const GROQ_API_KEY = "your_groq_key_here"
+Authorization: `Bearer your_groq_key_here`
 ```
 
 Then reload the extension from `chrome://extensions`.
