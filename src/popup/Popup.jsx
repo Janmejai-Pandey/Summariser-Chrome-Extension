@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import ReactMarkdown from "react-markdown"
 import "./Popup.css"
 
 const Popup = () => {
@@ -113,7 +114,7 @@ const Popup = () => {
       {summary && (
         <div className="summary">
           <h3>Summary</h3>
-          <p>{summary}</p>
+          <ReactMarkdown>{summary}</ReactMarkdown>
         </div>
       )}
     </div>

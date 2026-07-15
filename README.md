@@ -87,7 +87,7 @@ You can install the extension in two ways: directly from a release (no build req
 Create a `.env` file in the project root and add:
 
 ```
-GROQ_API_KEY=your_groq_key_here
+VITE_GROQ_API_KEY=your_groq_key_here
 ```
 
 Make sure `.env` is listed in `.gitignore`, then run `npm run build` again.
